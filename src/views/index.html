@@ -18,18 +18,29 @@
         <section class='col-xs-12 col-sm-9 col-md-9'>
             <section>
                 <h2>Welcome to Ansible Playbook Bundles</h2>
-                <h2>Database information</h2>
+                <h3>Database information:</h3>
                 <pre>
-Name: {{ database }}
-User: {{ user }}
+% if db_type:
+Type: {{ db_type }}
 Host: {{ host }}
+Port: {{ port }}
+DB Name: {{ database }}
+User: {{ user }}
 Version: {{ db_version }}
-
-% if uptime:
-Uptime: {{ uptime }} seconds
-% end
-% if conn_count:
+%   if uptime:
+Uptime: {{ uptime }}
+%   end
+%   if conn_count:
 Connection Count: {{ conn_count }}
+%   end
+% end
+% if not db_type:
+No database connected
+% end
+
+% if error:
+Error:
+{{ error }}
 % end
                 </pre>
             </section>
